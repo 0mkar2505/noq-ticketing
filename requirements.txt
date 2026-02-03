@@ -2,5 +2,5 @@ Flask
 flask-cors
 flask-bcrypt
 PyJWT
-mysql-connector-python
+pymongo
 python-dotenv
