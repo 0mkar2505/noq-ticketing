@@ -4,8 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = MongoClient(os.getenv("MONGO_URI"))
+MONGO_URI = os.getenv("MONGO_URI")
+
+client = MongoClient(MONGO_URI)
+
+# Use default DB from connection string
 db = client.get_database()
 
-def get_db():
-    return db
+# EXPORTED COLLECTIONS
+user_collection = db["users"]
+company_collection = db["companies"]
