@@ -34,29 +34,31 @@ def login():
 def register():
     data = request.json
 
+    # Security: Force client role for public registration
+    # Block any attempt to create admin accounts via API
+    if data.get("role") and data["role"] != "client":
+        return jsonify({"error": "Admin accounts cannot be created publicly"}), 403
+    
+    # Force client role
+    data["role"] = "client"
+
     name = data.get("name")
     email = data.get("email")
     password = data.get("password")
-    role = data.get("role")
     company_name = data.get("company_name")
 
-    if not all([name, email, password, role]):
+    if not all([name, email, password]):
         return jsonify({"error": "Missing required fields"}), 400
 
-    if role not in ["admin", "client"]:
-        return jsonify({"error": "Invalid role"}), 400
+    if not company_name:
+        return jsonify({"error": "Company name is required"}), 400
 
     if get_user_by_email(email):
         return jsonify({"error": "User already exists"}), 409
 
-    company_id = None
-
-    if role == "client":
-        if not company_name:
-            return jsonify({"error": "Company name required for clients"}), 400
-
-        company = create_company(company_name, email)
-        company_id = company["_id"]
+    # Create company for client
+    company = create_company(company_name, email)
+    company_id = company["_id"]
 
     hashed_pw = hash_password(password)
 
@@ -64,7 +66,7 @@ def register():
         name=name,
         email=email,
         password=hashed_pw,
-        role=role,
+        role="client",
         company_id=company_id
     )
 

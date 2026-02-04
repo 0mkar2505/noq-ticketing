@@ -9,102 +9,122 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-/>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
 
-
-<link rel="stylesheet" href="../assets/css/style.css">
-
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head> 
-<body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-
-  <!-- LEFT -->
-  <div class="nav-left">
-    <div class="logo-wrapper">
-      <div class="logo-icon"></div>
-    </div>
-    <span class="logo-text">NO-Q</span>
-  </div>
-
-  <!-- CENTER -->
-  <div class="nav-center">
-    <a href="#" class="nav-center-link">Live Demo Run</a>
-    <a href="#" class="nav-center-link">Pricing</a>
-    <a href="#" class="nav-center-link">Features</a>
-    <a href="#" class="nav-center-link">About</a>
-  </div>
-
-  <!-- RIGHT -->
-  <div class="nav-right">
-    <a href="#" class="nav-link">Login</a>
-    <button class="nav-btn">Try Demo</button>
-  </div>
-
-</nav>
-
-
-  <!-- LANDING PAGE -->
-  <main class="landing">
-    <div class="landing-content">
-      <h1>AI-Powered Ticket Management</h1>
-      <p>
-        Convert customer conversations into structured,
-        actionable support tickets using hybrid AI.
-      </p>
-
-      <div class="landing-actions">
-        <button class="primary-btn">Try Live Demo</button>
-        <a href="#" class="secondary-link">Learn how it works</a>
+<body class="page-transition">
+  <div class="page-wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <!-- LEFT -->
+      <div class="nav-left">
+        <div class="logo-wrapper">
+          <div class="logo-icon"></div>
+        </div>
+        <span class="logo-text">NO-Q</span>
       </div>
-    </div>
-  </main>
 
-  <!-- FOOTER -->
-<footer class="site-footer">
-  <div class="footer-inner">
-
-    <!-- LEFT: Brand + Tagline -->
-    <div class="footer-brand">
-      <img src="../assets/images/NO-Q logo 1.png" alt="NO-Q logo" class="footer-logo" />
-      <h3>
-        AI Ticket Management,<br>
-        <span>Because Waiting isnt Support.</span>
-      </h3>
-    </div>
-
-    <!-- RIGHT: Links -->
-    <div class="footer-links">
-      <div class="footer-col">
-        <span class="footer-title">OZU</span>
-        <a href="#">About</a>
-        <a href="#">Contact Us</a>
-        <a href="https://en.wikipedia.org/wiki/Potato">Potato</a>
+      <!-- CENTER -->
+      <div class="nav-center">
+        <a href="#" class="nav-center-link">Live Demo Run</a>
+        <a href="#" class="nav-center-link">Pricing</a>
+        <a href="#" class="nav-center-link">Features</a>
+        <a href="#" class="nav-center-link">About</a>
       </div>
-    </div>
 
+      <!-- RIGHT -->
+      <div class="nav-right">
+        <a href="/auth/login.html" class="nav-link">Login</a>
+        <button class="nav-btn" id="getStartedBtn">Try Demo</button>
+      </div>
+    </nav>
+
+    <!-- LANDING PAGE -->
+    <main class="landing">
+      <div class="landing-content">
+        <h1>AI-Powered Ticket Management</h1>
+        <p>
+          Convert customer conversations into structured,
+          actionable support tickets using hybrid AI.
+        </p>
+
+        <div class="landing-actions">
+          <button class="primary-btn" id="heroGetStartedBtn">Try Live Demo</button>
+          <a href="#" class="secondary-link">Learn how it works</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-divider"></div>
+
+      <div class="footer-main">
+        <div class="footer-brand">
+          <h2>
+            NO-Q — support,<br />
+            <span>without the wait.</span>
+          </h2>
+          <p>
+            NO-Q helps teams convert conversations into structured,
+            actionable support tickets.
+          </p>
+        </div>
+
+        <div class="footer-links-group">
+          <h4>OZU Technologies</h4>
+          <a href="#">About us</a>
+          <a href="#">Pricing</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 NO-Q. All rights reserved.</p>
+        <div class="footer-socials">
+          <a href="https://github.com/0mkar2505" target="_blank" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/omkar-zad" target="_blank" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
   </div>
 
-  <!-- FOOTER BOTTOM BAR -->
-  <div class="footer-bottom">
-    <span>© 2026 OZU Technologies.</span>
+  <script>
+    function routeUser() {
+      const token = localStorage.getItem("token");
 
-    <div class="footer-socials">
-  <a href="https://github.com/0mkar2505" aria-label="GitHub">
-    <i class="fa-brands fa-github"></i>
-  </a>
+      if (!token) {
+        window.location.href = "/auth/login.html";
+        return;
+      }
 
-  <a href="https://www.linkedin.com/in/omkar-zad" aria-label="LinkedIn">
-    <i class="fa-brands fa-linkedin"></i>
-  </a>
-</div>
-  </div>
-</footer>
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        if (payload.role === "admin") {
+          window.location.href = "/app/admin/dashboard.html";
+        } else {
+          window.location.href = "/app/client/dashboard.html";
+        }
+      } catch {
+        localStorage.removeItem("token");
+        window.location.href = "/auth/login.html";
+      }
+    }
 
-  <script src="../assets/js/script.js"></script>
+    document.getElementById("getStartedBtn")?.addEventListener("click", routeUser);
+    document.getElementById("heroGetStartedBtn")?.addEventListener("click", routeUser);
+  </script>
+
+  <script src="/assets/js/script.js"></script>
+  <script src="/shared/js/page-transition.js"></script>
 </body>
 </html>

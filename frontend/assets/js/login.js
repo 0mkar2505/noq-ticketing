@@ -1,23 +1,56 @@
 const form = document.getElementById("loginForm");
 const errorEl = document.getElementById("error");
+const submitBtn = document.getElementById("submitBtn");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  // Clear previous errors
+  clearError(errorEl);
+
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  // Frontend validation
+  if (!email.trim()) {
+    showError(errorEl, "Email is required");
+    emailInput.focus();
+    return;
+  }
+
+  if (!isValidEmail(email)) {
+    showError(errorEl, "Invalid email format");
+    emailInput.focus();
+    return;
+  }
+
+  if (!password) {
+    showError(errorEl, "Password is required");
+    passwordInput.focus();
+    return;
+  }
+
+  // Button loading state
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = "Signing in...";
+  submitBtn.disabled = true;
 
   try {
-    const res = await fetch("http://localhost:5000/api/auth/login", {
+    const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.login}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password }),
+      signal: AbortSignal.timeout(10000) // 10 second timeout
     });
 
     const data = await res.json();
 
     if (!res.ok) {
-      errorEl.innerText = data.error || "Login failed";
+      showError(errorEl, data.error || "Invalid email or password");
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
       return;
     }
 
@@ -34,7 +67,18 @@ form.addEventListener("submit", async (e) => {
       window.location.href = "../app/client/dashboard.html";
     }
 
-  } catch {
-    errorEl.innerText = "Backend not reachable";
+  } catch (err) {
+    console.error("Login error:", err);
+    
+    if (err.name === 'TimeoutError') {
+      showError(errorEl, "Request timed out. Please try again.");
+    } else if (err.name === 'TypeError' && err.message.includes('fetch')) {
+      showError(errorEl, "Unable to connect to server. Is the backend running on port 5000?");
+    } else {
+      showError(errorEl, "An unexpected error occurred. Please try again.");
+    }
+    
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
   }
 });

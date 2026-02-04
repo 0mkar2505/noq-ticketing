@@ -1,10 +1,96 @@
-<form id="loginForm">
-  <input type="email" id="email" required />
-  <input type="password" id="password" required />
-  <button type="submit">Login</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NO-Q | Login</title>
 
-<p id="error"></p>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<script src="/assets/js/login.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body class="page-transition">
+  <div class="page-wrapper">
+    <!-- AUTH NAVBAR - SIMPLIFIED -->
+    <header class="navbar navbar--auth">
+      <div class="navbar-left">
+        <img src="/assets/images/NO-Q logo 1.png" alt="NO-Q Logo" class="navbar-logo" />
+        <span class="navbar-brand">NO-Q</span>
+      </div>
+
+      <div class="navbar-right">
+        <a href="/public/index.html" class="btn btn-secondary">
+          Home
+        </a>
+      </div>
+    </header>
+
+    <!-- LOGIN FORM -->
+    <main class="auth-page">
+      <div class="auth-card">
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">
+          Sign in to continue to NO-Q
+        </p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="you@company.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+
+          <button type="submit" class="auth-btn" id="submitBtn">Sign in</button>
+        </form>
+
+        <p id="error" class="form-error"></p>
+
+        <p class="auth-switch">
+          Don't have an account?
+          <a href="/auth/register.html">Sign up</a>
+        </p>
+      </div>
+    </main>
+
+    <!-- FOOTER (SIMPLE AUTH) -->
+    <footer class="site-footer site-footer--auth">
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom auth-footer-content">
+        <p class="footer-quote">
+          <strong>NO-Q</strong> — because waiting is not support.
+        </p>
+
+        <div class="footer-socials">
+          <a href="https://github.com/0mkar2505" target="_blank" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+
+          <a href="https://www.linkedin.com/in/omkar-zad" target="_blank" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/shared/js/config.js"></script>
+  <script src="/shared/js/validators.js"></script>
+  <script src="/assets/js/login.js"></script>
+  <script src="/shared/js/page-transition.js"></script>
+</body>
+</html>
