@@ -14,7 +14,9 @@ def login():
     if not data or "email" not in data or "password" not in data:
         return jsonify({"error": "Invalid request"}), 400
 
+    print("LOGIN START")
     user = User.find_by_email(data["email"])
+    print("LOGIN QUERY DONE")
 
     if not user or not check_password(data["password"], user.password):
         return jsonify({"error": "Invalid credentials"}), 401

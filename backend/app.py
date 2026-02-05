@@ -4,11 +4,13 @@ from flask_cors import CORS
 from auth.routes import auth_bp
 from admin.routes import admin_bp
 from client.routes import client_bp
+from auth.routes import auth_bp
+from routes.ai_routes import ai_bp
 
 app = Flask(__name__)
 CORS(app)
 
-# bcrypt is initialized in auth/utils.py using plain bcrypt
+app.register_blueprint(ai_bp, url_prefix="/api")
 app.register_blueprint(auth_bp, url_prefix="/api/auth")
 app.register_blueprint(admin_bp, url_prefix="/api/admin")
 app.register_blueprint(client_bp, url_prefix="/api/client")

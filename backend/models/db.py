@@ -1,16 +1,17 @@
-import os
 from pymongo import MongoClient
-from dotenv import load_dotenv
-
-load_dotenv()
+import certifi
+import os
 
 MONGO_URI = os.getenv("MONGO_URI")
 
-client = MongoClient(MONGO_URI)
+client = MongoClient(
+    MONGO_URI,
+    tls=True,
+    tlsCAFile=certifi.where(),
+    serverSelectionTimeoutMS=5000
+)
 
-# Use default DB from connection string
-db = client.get_database()
+db = client["noq_db"]
 
-# EXPORTED COLLECTIONS
 user_collection = db["users"]
 company_collection = db["companies"]
